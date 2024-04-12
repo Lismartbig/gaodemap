@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Android1/workSpace/GaoDeMap/app/src/main/res/layout/activity_main.xml" value="0.23489583333333333" />
+        <entry key="..\:/Android1/workSpace/GaoDeMap/app/src/main/res/drawable/shape_white.xml" value="0.1075" />
+        <entry key="..\:/Android1/workSpace/GaoDeMap/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Android1/workSpace/GaoDeMap/app/src/main/res/layout/activity_map.xml" value="0.161231884057971" />
+        <entry key="..\:/Android1/workSpace/GaoDeMap/app/src/main/res/layout/shape_white.xml" value="0.1" />
       </map>
     </option>
   </component>

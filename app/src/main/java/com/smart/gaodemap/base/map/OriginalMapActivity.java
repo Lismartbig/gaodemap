@@ -1,13 +1,7 @@
-package com.smart.gaodemap;
+package com.smart.gaodemap.base.map;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-
-import androidx.annotation.NonNull;
-import androidx.core.widget.NestedScrollView;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -17,45 +11,27 @@ import com.amap.api.maps.MapView;
 import com.amap.api.maps.MapsInitializer;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.services.core.ServiceSettings;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.smart.gaodemap.R;
 
-public class MainActivity extends Activity {
-
-    private BottomSheetBehavior bottomSheetBehavior;
+public class OriginalMapActivity extends Activity {
     MapView mMapView = null;
     MyLocationStyle myLocationStyle;
-    LinearLayout holder;
     //初始化地图控制器对象
     AMap aMap;
     //声明AMapLocationClient类对象
     public AMapLocationClient mLocationClient = null;
+    //声明定位回调监听器
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        holder = findViewById(R.id.bottom_sheet);
-        BottomSheetBehavior<LinearLayout> behavior = BottomSheetBehavior.from(holder);
-        behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View view, int newState) {
-//                if (newState == BottomSheetBehavior.STATE_EXPANDED || newState == BottomSheetBehavior.STATE_HALF_EXPANDED ) {
-//                    locate.setVisibility(View.GONE);
-//                }else if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-//                    locate.setVisibility(View.VISIBLE);
-//                }
-            }
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-            }
-        });
 
         ServiceSettings.updatePrivacyShow(this,true,true);
         ServiceSettings.updatePrivacyAgree(this,true);
 
         // 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_map);
         MapsInitializer.updatePrivacyShow(this,true,true);
         MapsInitializer.updatePrivacyAgree(this,true);
         //获取地图控件引用
@@ -87,16 +63,30 @@ public class MainActivity extends Activity {
         aMap.setMyLocationStyle(myLocationStyle);//设置定位蓝点的Style
         aMap.getUiSettings().setMyLocationButtonEnabled(true);//设置默认定位按钮是否显示，非必需设置。
         aMap.setMyLocationEnabled(true);
-
     }
-    // 获取状态栏高度
-    private int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //在activity执行onDestroy时执行mMapView.onDestroy()，销毁地图
+        mMapView.onDestroy();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //在activity执行onResume时执行mMapView.onResume ()，重新绘制加载地图
+        mMapView.onResume();
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //在activity执行onPause时执行mMapView.onPause ()，暂停地图的绘制
+        mMapView.onPause();
+    }
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，保存地图当前的状态
+        mMapView.onSaveInstanceState(outState);
     }
 }
 
