@@ -3,9 +3,6 @@ package com.smart.gaodemap;
 import android.app.Application;
 import android.content.Context;
 
-import com.amap.api.location.AMapLocationClient;
-import com.amap.api.maps.MapsInitializer;
-import com.amap.api.services.core.ServiceSettings;
 
 public class MapApplication extends Application {
 
