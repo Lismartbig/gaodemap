@@ -54,7 +54,7 @@
         android:theme="@style/Theme.GaoDeMap">
 
         <!--设置高德Key-->
-        <meta-data android:name="com.amap.api.v2.apikey" android:value="7ef341dc2f05e3536f8a01c0fbc78bd0"/>
+        <meta-data android:name="com.amap.api.v2.apikey" android:value="88f983d419cd683ba81e8e85e44772de"/>
 
         <activity
             android:name=".MainActivity"
@@ -66,6 +66,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".base.map.OriginalMapActivity"></activity>
+        <activity android:name=".route.RouteActivity"></activity>
 
         <!--定位service-->
         <service android:name="com.amap.api.location.APSService"/>

@@ -8,6 +8,11 @@
         <entry key="..\:/ASWork/gaodemap/app/src/main/res/drawable/shape_white.xml" value="0.149" />
         <entry key="..\:/ASWork/gaodemap/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/ASWork/gaodemap/app/src/main/res/layout/activity_map.xml" value="0.2617753623188406" />
+        <entry key="..\:/ASWork/gaodemap/app/src/main/res/layout/activity_route_detail.xml" value="0.338768115942029" />
+        <entry key="..\:/ASWork/gaodemap/app/src/main/res/layout/item_bus_result.xml" value="0.338768115942029" />
+        <entry key="..\:/ASWork/gaodemap/app/src/main/res/layout/item_bus_segment.xml" value="0.338768115942029" />
+        <entry key="..\:/ASWork/gaodemap/app/src/main/res/layout/item_bus_segment_ex.xml" value="0.338768115942029" />
+        <entry key="..\:/ASWork/gaodemap/app/src/main/res/layout/route_activity.xml" value="0.338768115942029" />
         <entry key="..\:/Android1/workSpace/GaoDeMap/app/src/main/res/layout/activity_main.xml" value="0.23489583333333333" />
       </map>
     </option>
