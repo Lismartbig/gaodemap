@@ -23,14 +23,24 @@
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         tools:ignore="MissingPrefix">
 
-            <TextView
+            <Button
+                android:id="@+id/bt_mark"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:drawablePadding="10dp"
                 android:lineSpacingExtra="20dp"
-                android:text="我是内容\n我是内容\n我是内容\n我是内容\n我是内容\n我是内容\n我是内容\n我是内容\n" />
+                android:text="标记地点" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:drawablePadding="10dp"
+                android:lineSpacingExtra="20dp"
+                android:text="功能2" />
 
     </LinearLayout>
 

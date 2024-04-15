@@ -1,6 +1,7 @@
 package com.smart.gaodemap;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +22,7 @@ import com.amap.api.maps.MapsInitializer;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.services.core.ServiceSettings;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.smart.gaodemap.mark.MarkerActivity;
 
 public class MainActivity extends Activity implements OnClickListener{
 
@@ -37,6 +39,7 @@ public class MainActivity extends Activity implements OnClickListener{
     private Button rsmap;
     private Button nightmap;
     private Button navimap;
+    private Button bt_mark;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +74,9 @@ public class MainActivity extends Activity implements OnClickListener{
         //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
         mMapView.onCreate(savedInstanceState);
         mMapView.getMap().getUiSettings().setZoomControlsEnabled(false);
+        mMapView.getMap().getUiSettings().setScaleControlsEnabled(true);//控制比例尺控件是否显示
+        mMapView.getMap().getUiSettings().setCompassEnabled(true);
+
 
         if (aMap == null) {
             aMap = mMapView.getMap();
@@ -84,7 +90,7 @@ public class MainActivity extends Activity implements OnClickListener{
         nightmap.setOnClickListener(this);
         navimap = (Button)findViewById(R.id.navimap);
         navimap.setOnClickListener(this);
-
+        bt_mark = (Button)findViewById(R.id.bt_mark);
 
         AMapLocationListener mLocationListener = new AMapLocationListener() {
             @Override
@@ -103,10 +109,23 @@ public class MainActivity extends Activity implements OnClickListener{
 
         //定位蓝点//
         myLocationStyle = new MyLocationStyle();//初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
+        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE_NO_CENTER);//连续定位、蓝点不会移动到地图中心点，定位点依照设备方向旋转，并且蓝点会跟随设备移动。
         myLocationStyle.interval(2000); //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
         aMap.setMyLocationStyle(myLocationStyle);//设置定位蓝点的Style
         aMap.getUiSettings().setMyLocationButtonEnabled(true);//设置默认定位按钮是否显示，非必需设置。
         aMap.setMyLocationEnabled(true);
+
+
+        // 为按钮设置点击事件监听器
+        bt_mark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 创建一个新的Intent来启动TargetActivity
+                Intent intent = new Intent(MainActivity.this, MarkerActivity.class);
+                // 启动目标Activity
+                startActivity(intent);
+            }
+        });
 
 
     }
