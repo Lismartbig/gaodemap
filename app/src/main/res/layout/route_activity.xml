@@ -9,19 +9,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/title_background" >
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
+
         <LinearLayout
             android:id="@+id/routemap_choose"
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:background="@drawable/title_background"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp" >
+            android:paddingRight="10dp"
+            android:layout_below="@+id/search_bar">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:onClick="onDriveClick" >
+                android:onClick="onDriveClick">
 
                 <ImageView
                     android:id="@+id/route_drive"
@@ -29,14 +38,14 @@
                     android:layout_height="22dp"
                     android:layout_centerInParent="true"
                     android:layout_gravity="center"
-                    android:src="@drawable/route_drive_normal"/>
+                    android:src="@drawable/route_drive_normal" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:onClick="onBusClick" >
+                android:onClick="onBusClick">
 
                 <ImageView
                     android:id="@+id/route_bus"
@@ -52,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:onClick="onWalkClick" >
+                android:onClick="onWalkClick">
 
                 <ImageView
                     android:id="@+id/route_walk"
@@ -63,11 +72,12 @@
                     android:layout_weight="1"
                     android:src="@drawable/route_walk_normal" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:onClick="onCrosstownBusClick" >
+                android:onClick="onCrosstownBusClick">
 
                 <TextView
                     android:id="@+id/route_CrosstownBus"
@@ -75,8 +85,8 @@
                     android:layout_height="22dp"
                     android:layout_centerInParent="true"
                     android:layout_gravity="center"
-                    android:textColor="@color/gary"
-                    android:text="跨城公交"/>
+                    android:text="跨城公交"
+                    android:textColor="@color/gary" />
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>

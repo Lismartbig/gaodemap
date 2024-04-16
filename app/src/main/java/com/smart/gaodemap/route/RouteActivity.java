@@ -84,7 +84,7 @@ public class RouteActivity extends Activity implements OnMapClickListener,
         mapView = (MapView) findViewById(R.id.route_map);
         mapView.onCreate(bundle);// 此方法必须重写
         init();
-//		getIntentData();
+        //getIntentData();
         setfromandtoMarker();
 
 

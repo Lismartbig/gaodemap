@@ -31,7 +31,7 @@
                 android:layout_marginTop="20dp"
                 android:drawablePadding="10dp"
                 android:lineSpacingExtra="20dp"
-                android:text="标记地点" />
+                android:text="路线规划" />
 
             <Button
                 android:layout_width="wrap_content"

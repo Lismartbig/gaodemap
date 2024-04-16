@@ -23,6 +23,8 @@ import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.services.core.ServiceSettings;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.smart.gaodemap.mark.MarkerActivity;
+import com.smart.gaodemap.poisearch.PoiKeywordSearchActivity;
+import com.smart.gaodemap.route.RouteActivity;
 
 public class MainActivity extends Activity implements OnClickListener{
 
@@ -121,7 +123,7 @@ public class MainActivity extends Activity implements OnClickListener{
             @Override
             public void onClick(View v) {
                 // 创建一个新的Intent来启动TargetActivity
-                Intent intent = new Intent(MainActivity.this, MarkerActivity.class);
+                Intent intent = new Intent(MainActivity.this, PoiKeywordSearchActivity.class);
                 // 启动目标Activity
                 startActivity(intent);
             }
