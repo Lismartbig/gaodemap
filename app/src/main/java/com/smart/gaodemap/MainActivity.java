@@ -42,6 +42,7 @@ public class MainActivity extends Activity implements OnClickListener{
     private Button nightmap;
     private Button navimap;
     private Button bt_mark;
+    private Button bt_poi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +94,7 @@ public class MainActivity extends Activity implements OnClickListener{
         navimap = (Button)findViewById(R.id.navimap);
         navimap.setOnClickListener(this);
         bt_mark = (Button)findViewById(R.id.bt_mark);
+        bt_poi = (Button)findViewById(R.id.bt_poi);
 
         AMapLocationListener mLocationListener = new AMapLocationListener() {
             @Override
@@ -123,11 +125,22 @@ public class MainActivity extends Activity implements OnClickListener{
             @Override
             public void onClick(View v) {
                 // 创建一个新的Intent来启动TargetActivity
+                Intent intent = new Intent(MainActivity.this, RouteActivity.class);
+                // 启动目标Activity
+                startActivity(intent);
+            }
+        });
+
+        bt_poi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 创建一个新的Intent来启动TargetActivity
                 Intent intent = new Intent(MainActivity.this, PoiKeywordSearchActivity.class);
                 // 启动目标Activity
                 startActivity(intent);
             }
         });
+
 
 
     }
