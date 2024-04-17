@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#FDEEEE" />
+    <solid android:color="#EEF7FF" />
     <!-- 这里可以添加其他属性来定义形状，如圆角、边框等 -->
     <corners android:radius="10dp"/>
     <stroke
