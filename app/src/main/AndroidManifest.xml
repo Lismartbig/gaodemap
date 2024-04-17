@@ -2,47 +2,37 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.smart.gaodemap">
 
-<!--    &lt;!&ndash;用于访问网络，网络定位需要上网&ndash;&gt;-->
-<!--    <uses-permission android:name="android.permission.INTERNET" />-->
-<!--    &lt;!&ndash;用于读取手机当前的状态&ndash;&gt;-->
-<!--    <uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
-<!--    &lt;!&ndash;用于写入缓存数据到扩展存储卡&ndash;&gt;-->
-<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
-<!--    &lt;!&ndash;用于申请调用A-GPS模块&ndash;&gt;-->
-<!--    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />-->
-<!--    &lt;!&ndash;用于进行网络定位&ndash;&gt;-->
-<!--    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
-<!--    &lt;!&ndash;用于访问GPS定位&ndash;&gt;-->
-<!--    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
-<!--    &lt;!&ndash;用于获取运营商信息，用于支持提供运营商信息相关的接口&ndash;&gt;-->
-<!--    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
-<!--    &lt;!&ndash;用于访问wifi网络信息，wifi信息会用于进行网络定位&ndash;&gt;-->
-<!--    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
-<!--    &lt;!&ndash;用于获取wifi的获取权限，wifi信息会用来进行网络定位&ndash;&gt;-->
-<!--    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />-->
-<!--    &lt;!&ndash;声明后台定位权限&ndash;&gt;-->
-<!--    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />-->
-
-    <!--用于进行网络定位-->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
-    <!--用于访问GPS定位-->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
-    <!--用于获取运营商信息，用于支持提供运营商信息相关的接口-->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
-    <!--用于访问wifi网络信息，wifi信息会用于进行网络定位-->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
-    <!--用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
-    <!--用于访问网络，网络定位需要上网-->
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-    <!--用于写入缓存数据到扩展存储卡-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
-    <!--用于申请调用A-GPS模块-->
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"></uses-permission>
-    <!--如果设置了target >= 28 如果需要启动后台定位则必须声明这个权限-->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-    <!--如果您的应用需要后台定位权限，且有可能运行在Android Q设备上,并且设置了target>28，必须增加这个权限声明-->
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+    <!-- &lt;!&ndash;用于访问网络，网络定位需要上网&ndash;&gt; -->
+    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
+    <!-- &lt;!&ndash;用于读取手机当前的状态&ndash;&gt; -->
+    <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
+    <!-- &lt;!&ndash;用于写入缓存数据到扩展存储卡&ndash;&gt; -->
+    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
+    <!-- &lt;!&ndash;用于申请调用A-GPS模块&ndash;&gt; -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" /> -->
+    <!-- &lt;!&ndash;用于进行网络定位&ndash;&gt; -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> -->
+    <!-- &lt;!&ndash;用于访问GPS定位&ndash;&gt; -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> -->
+    <!-- &lt;!&ndash;用于获取运营商信息，用于支持提供运营商信息相关的接口&ndash;&gt; -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
+    <!-- &lt;!&ndash;用于访问wifi网络信息，wifi信息会用于进行网络定位&ndash;&gt; -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> -->
+    <!-- &lt;!&ndash;用于获取wifi的获取权限，wifi信息会用来进行网络定位&ndash;&gt; -->
+    <!-- <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> -->
+    <!-- &lt;!&ndash;声明后台定位权限&ndash;&gt; -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /> -->
+    <!-- 用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 用于获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 用于访问网络，网络定位需要上网 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 用于写入缓存数据到扩展存储卡 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 用于申请调用A-GPS模块 -->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" /> <!-- 如果设置了target >= 28 如果需要启动后台定位则必须声明这个权限 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- 如果您的应用需要后台定位权限，且有可能运行在Android Q设备上,并且设置了target>28，必须增加这个权限声明 -->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <application
         android:name=".MapApplication"
@@ -53,9 +43,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GaoDeMap">
 
-        <!--设置高德Key-->
-        <meta-data android:name="com.amap.api.v2.apikey"
-            android:value="7ef341dc2f05e3536f8a01c0fbc78bd0"/>
+        <!-- 设置高德Key -->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="7ef341dc2f05e3536f8a01c0fbc78bd0" />
 
         <activity
             android:name=".MainActivity"
@@ -66,16 +57,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".base.map.OriginalMapActivity"></activity>
-        <activity android:name=".route.RouteActivity"></activity>
-        <activity android:name=".route.BusRouteDetailActivity"></activity>
-        <activity android:name=".route.DriveRouteDetailActivity"></activity>
-        <activity android:name=".route.WalkRouteDetailActivity"></activity>
-        <activity android:name=".poisearch.PoiKeywordSearchActivity"></activity>
-
-        <!--定位service-->
-        <service android:name="com.amap.api.location.APSService"/>
-
+        <activity android:name=".base.map.OriginalMapActivity" />
+        <activity android:name=".route.RouteActivity" />
+        <activity android:name=".route.BusRouteDetailActivity" />
+        <activity android:name=".route.DriveRouteDetailActivity" />
+        <activity android:name=".route.WalkRouteDetailActivity" />
+        <activity android:name=".poisearch.PoiKeywordSearchActivity" /> <!-- 定位service -->
+        <service android:name="com.amap.api.location.APSService" />
     </application>
 
 </manifest>
