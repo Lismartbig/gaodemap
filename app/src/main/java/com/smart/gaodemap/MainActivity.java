@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.view.View.OnClickListener;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 
 
@@ -22,6 +23,7 @@ import com.amap.api.maps.MapsInitializer;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.services.core.ServiceSettings;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.smart.gaodemap.mark.MarkerActivity;
 import com.smart.gaodemap.poisearch.PoiKeywordSearchActivity;
 import com.smart.gaodemap.route.RouteActivity;
@@ -43,6 +45,8 @@ public class MainActivity extends Activity implements OnClickListener{
     private Button navimap;
     private Button bt_mark;
     private Button bt_poi;
+    private LinearLayout expandableLayout;
+    private FloatingActionButton fabExpand;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +145,23 @@ public class MainActivity extends Activity implements OnClickListener{
             }
         });
 
+        expandableLayout = findViewById(R.id.ly_bt);
+        fabExpand = findViewById(R.id.fab);
+
+        fabExpand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (expandableLayout.getVisibility() == View.GONE) {
+                    // 展开按钮列
+                    expandableLayout.setVisibility(View.VISIBLE);
+                    fabExpand.setImageResource(R.drawable.float_up);
+                } else {
+                    // 折叠按钮列
+                    expandableLayout.setVisibility(View.GONE);
+                    fabExpand.setImageResource( R.drawable.float_down);
+                }
+            }
+        });
 
 
     }
