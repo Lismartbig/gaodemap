@@ -18,7 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import android.support.v4.app.FragmentActivity;
+//import android.support.v4.app.FragmentActivity;
 
 
 import androidx.fragment.app.FragmentActivity;
@@ -27,6 +27,7 @@ import com.amap.api.maps.AMap;
 import com.amap.api.maps.AMap.InfoWindowAdapter;
 import com.amap.api.maps.AMap.OnMarkerClickListener;
 import com.amap.api.maps.AMapUtils;
+import com.amap.api.maps.MapView;
 import com.amap.api.maps.SupportMapFragment;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.NaviPara;
@@ -56,6 +57,7 @@ public class PoiKeywordSearchActivity extends FragmentActivity implements
 		OnMarkerClickListener, InfoWindowAdapter, TextWatcher,
 		OnPoiSearchListener, OnClickListener, InputtipsListener {
 	private AMap aMap;
+	private MapView mapView; // 添加成员变量
 	private AutoCompleteTextView searchText;// 输入搜索关键字
 	private String keyWord = "";// 要输入的poi搜索关键字
 	private ProgressDialog progDialog = null;// 搜索时进度条
@@ -70,19 +72,46 @@ public class PoiKeywordSearchActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.poikeywordsearch_activity);
 		init();
+		mapView.onCreate(savedInstanceState); // 此行必须调用，否则无法显示地图
 	}
 
-	/**
-	 * 初始化AMap对象
-	 */
+	// 初始化AMap对象
 	private void init() {
+		mapView = (MapView) findViewById(R.id.map); // 获取mapView实例
+
 		if (aMap == null) {
-			aMap = ((SupportMapFragment)getSupportFragmentManager()
-					.findFragmentById(R.id.map)).getMap();
+			aMap = mapView.getMap(); // 从mapView获取AMap实例
 			setUpMap();
 		}
 	}
 
+	// 当Activity执行onResume()时调用mapView的onResume()
+	@Override
+	protected void onResume() {
+		super.onResume();
+		mapView.onResume();
+	}
+
+	// 当Activity执行onPause()时调用mapView的onPause()
+	@Override
+	protected void onPause() {
+		super.onPause();
+		mapView.onPause();
+	}
+
+	// 当Activity执行onDestroy()时调用mapView的onDestroy()
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		mapView.onDestroy();
+	}
+
+	// 当Activity执行onSaveInstanceState()时调用mapView的onSaveInstanceState()
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		mapView.onSaveInstanceState(outState);
+	}
 	/**
 	 * 设置页面监听
 	 */

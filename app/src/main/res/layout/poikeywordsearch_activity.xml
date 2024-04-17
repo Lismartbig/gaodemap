@@ -63,10 +63,9 @@
             android:text="下一页" />
     </LinearLayout>
 
-    <fragment
+    <com.amap.api.maps.MapView
         android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        class="com.amap.api.maps.SupportMapFragment" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

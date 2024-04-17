@@ -12,12 +12,11 @@
         <entry key="..\:/ASWork/gaodemap/app/src/main/res/layout/item_bus_result.xml" value="0.338768115942029" />
         <entry key="..\:/ASWork/gaodemap/app/src/main/res/layout/item_bus_segment.xml" value="0.338768115942029" />
         <entry key="..\:/ASWork/gaodemap/app/src/main/res/layout/item_bus_segment_ex.xml" value="0.338768115942029" />
-        <entry key="..\:/ASWork/gaodemap/app/src/main/res/layout/marker_activity.xml" value="0.1" />
-        <entry key="..\:/ASWork/gaodemap/app/src/main/res/layout/poikeywordsearch_activity.xml" value="0.338768115942029" />
-        <entry key="..\:/ASWork/gaodemap/app/src/main/res/layout/poikeywordsearch_uri.xml" value="0.338768115942029" />
         <entry key="..\:/ASWork/gaodemap/app/src/main/res/layout/route_activity.xml" value="0.338768115942029" />
-        <entry key="..\:/ASWork/gaodemap/app/src/main/res/layout/route_inputs.xml" value="0.338768115942029" />
-        <entry key="..\:/Android1/workSpace/GaoDeMap/app/src/main/res/layout/activity_main.xml" value="0.23489583333333333" />
+        <entry key="..\:/Android1/workSpace/GaoDeMap/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Android1/workSpace/GaoDeMap/app/src/main/res/layout/activity_map.xml" value="0.1" />
+        <entry key="..\:/Android1/workSpace/GaoDeMap/app/src/main/res/layout/marker_activity.xml" value="0.1" />
+        <entry key="..\:/Android1/workSpace/GaoDeMap/app/src/main/res/layout/poikeywordsearch_activity.xml" value="0.10092592592592593" />
       </map>
     </option>
   </component>
