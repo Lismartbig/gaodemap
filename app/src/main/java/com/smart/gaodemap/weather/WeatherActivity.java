@@ -2,8 +2,13 @@ package com.smart.gaodemap.weather;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.amap.api.services.core.AMapException;
 import com.amap.api.services.weather.LocalDayWeatherForecast;
 import com.amap.api.services.weather.LocalWeatherForecast;
@@ -34,16 +39,79 @@ public class WeatherActivity extends Activity implements OnWeatherSearchListener
     private LocalWeatherLive weatherlive;
     private LocalWeatherForecast weatherforecast;
     private List<LocalDayWeatherForecast> forecastlist = null;
-    private String cityname = "嘉兴市";//天气搜索的城市，可以写名称或adcode；
+    //声明AMapLocationClient类对象
+    private AMapLocationClient mLocationClient;
+    //声明定位回调监听器
+    private AMapLocationClientOption mLocationOption;
+
+    private String cityname;//天气搜索的城市，可以写名称或adcode；
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.weather_activity);
+        try {
+            startLocaion();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         init();
-        searchliveweather();
-        searchforcastsweather();
+//        searchliveweather();
+//        searchforcastsweather();
     }
+
+    public void startLocaion() throws Exception {
+        mLocationClient = new AMapLocationClient(getApplicationContext());
+        mLocationClient.setLocationListener(mLocationListener);
+
+        mLocationOption = new AMapLocationClientOption();
+        //设置定位模式为AMapLocationMode.Hight_Accuracy，高精度模式。
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        //设置是否返回地址信息（默认返回地址信息）
+        mLocationOption.setNeedAddress(true);
+        //获取一次定位结果：
+        //该方法默认为false。
+        mLocationOption.setOnceLocation(true);
+        //设置是否允许模拟位置,默认为false，不允许模拟位置
+        mLocationOption.setMockEnable(false);
+
+        //给定位客户端对象设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
+        //启动定位
+        mLocationClient.startLocation();
+    }
+
+
+    //声明定位回调监听器
+    public AMapLocationListener mLocationListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation amapLocation) {
+            if (amapLocation != null) {
+                if (amapLocation.getErrorCode() == 0) {
+                    // 定位成功回调信息，设置相关消息
+                    cityname = amapLocation.getDistrict(); // 或者 amapLocation.getCity()
+                    // 更新UI
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            TextView city = (TextView) findViewById(R.id.city);
+                            city.setText(cityname);
+                            // 一旦完成定位，立即进行天气查询
+                            searchliveweather();
+                            searchforcastsweather();
+                        }
+                    });
+                } else {
+                    // 显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
+                    Log.e("AmapError", "location Error, ErrCode:"
+                            + amapLocation.getErrorCode() + ", errInfo:"
+                            + amapLocation.getErrorInfo());
+                }
+            }
+        }
+    };
+
 
     private void init() {
         TextView city = (TextView) findViewById(R.id.city);
