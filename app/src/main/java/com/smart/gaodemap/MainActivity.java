@@ -3,9 +3,12 @@ package com.smart.gaodemap;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.view.View.OnClickListener;
 
@@ -18,15 +21,22 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.AMapOptions;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.MapsInitializer;
+import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.MyLocationStyle;
+
 import com.amap.api.services.core.ServiceSettings;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.smart.gaodemap.mark.MarkerActivity;
 import com.smart.gaodemap.poisearch.PoiKeywordSearchActivity;
 import com.smart.gaodemap.route.RouteActivity;
+import com.smart.gaodemap.weather.WeatherActivity;
+
+import android.view.animation.RotateAnimation;
+import android.view.animation.Animation;
 
 public class MainActivity extends Activity implements OnClickListener{
 
@@ -43,10 +53,15 @@ public class MainActivity extends Activity implements OnClickListener{
     private Button rsmap;
     private Button nightmap;
     private Button navimap;
-    private Button bt_mark;
+    private Button bt_rute;
     private Button bt_poi;
+    private Button bt_weather;
+    private Button bt_navigation;
     private LinearLayout expandableLayout;
     private FloatingActionButton fabExpand;
+    private float lastBearing = 0;
+    private RotateAnimation rotateAnimation;
+    private ImageView ivCompass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,13 +91,16 @@ public class MainActivity extends Activity implements OnClickListener{
         setContentView(R.layout.activity_main);
         MapsInitializer.updatePrivacyShow(this,true,true);
         MapsInitializer.updatePrivacyAgree(this,true);
+
+
         //获取地图控件引用
         mMapView = (MapView) findViewById(R.id.map);
         //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
         mMapView.onCreate(savedInstanceState);
-        mMapView.getMap().getUiSettings().setZoomControlsEnabled(false);
-        mMapView.getMap().getUiSettings().setScaleControlsEnabled(true);//控制比例尺控件是否显示
-        mMapView.getMap().getUiSettings().setCompassEnabled(true);
+        mMapView.getMap().getUiSettings().setZoomControlsEnabled(true);//缩放按钮
+        mMapView.getMap().getUiSettings().setZoomPosition(AMapOptions.ZOOM_POSITION_RIGHT_CENTER); //缩放按钮右中间
+        mMapView.getMap().getUiSettings().setScaleControlsEnabled(false);//控制比例尺控件是否显示
+        mMapView.getMap().getUiSettings().setCompassEnabled(false);//指南针控件
 
 
         if (aMap == null) {
@@ -97,13 +115,15 @@ public class MainActivity extends Activity implements OnClickListener{
         nightmap.setOnClickListener(this);
         navimap = (Button)findViewById(R.id.navimap);
         navimap.setOnClickListener(this);
-        bt_mark = (Button)findViewById(R.id.bt_mark);
+        bt_rute = (Button)findViewById(R.id.bt_rute);
         bt_poi = (Button)findViewById(R.id.bt_poi);
+        bt_weather = (Button)findViewById(R.id.bt_weather);
+        bt_navigation = (Button)findViewById(R.id.bt_navigation);
+        ivCompass = (ImageView)findViewById(R.id.iv_compass);
 
         AMapLocationListener mLocationListener = new AMapLocationListener() {
             @Override
             public void onLocationChanged(AMapLocation aMapLocation) {
-
             }
         };
         //初始化定位
@@ -123,9 +143,34 @@ public class MainActivity extends Activity implements OnClickListener{
         aMap.getUiSettings().setMyLocationButtonEnabled(true);//设置默认定位按钮是否显示，非必需设置。
         aMap.setMyLocationEnabled(true);
 
+        //mapView相关监听
+        aMap.setOnCameraChangeListener(new AMap.OnCameraChangeListener() {
+            @Override
+            public void onCameraChange(CameraPosition cameraPosition) {
+
+                startIvCompass(cameraPosition.bearing);
+            }
+
+            @Override
+            public void onCameraChangeFinish(CameraPosition cameraPosition) {
+            }
+        });
+        aMap.setOnCameraChangeListener(new AMap.OnCameraChangeListener() {
+            @Override
+            public void onCameraChange(CameraPosition cameraPosition) {
+
+                startIvCompass(cameraPosition.bearing);
+            }
+
+            @Override
+            public void onCameraChangeFinish(CameraPosition cameraPosition) {
+
+            }
+        });
+
 
         // 为按钮设置点击事件监听器
-        bt_mark.setOnClickListener(new View.OnClickListener() {
+        bt_rute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // 创建一个新的Intent来启动TargetActivity
@@ -134,7 +179,6 @@ public class MainActivity extends Activity implements OnClickListener{
                 startActivity(intent);
             }
         });
-
         bt_poi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,6 +188,24 @@ public class MainActivity extends Activity implements OnClickListener{
                 startActivity(intent);
             }
         });
+        bt_weather.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 创建一个新的Intent来启动TargetActivity
+                Intent intent = new Intent(MainActivity.this, WeatherActivity.class);
+                // 启动目标Activity
+                startActivity(intent);
+            }
+        });
+//        bt_navigation.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // 创建一个新的Intent来启动TargetActivity
+//                Intent intent = new Intent(MainActivity.this, NavigationActivity.class);
+//                // 启动目标Activity
+//                startActivity(intent);
+//            }
+//        });
 
         expandableLayout = findViewById(R.id.ly_bt);
         fabExpand = findViewById(R.id.fab);
@@ -165,6 +227,19 @@ public class MainActivity extends Activity implements OnClickListener{
 
 
     }
+
+    //指南针动画
+    private void startIvCompass(float bearing) {
+        bearing = 360 - bearing;
+//        Log.d(TAG, "startIvCompass: " + bearing);
+        rotateAnimation = new RotateAnimation(lastBearing, bearing, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        rotateAnimation.setFillAfter(true);
+
+        ivCompass.startAnimation(rotateAnimation);
+        lastBearing = bearing;
+    }
+
+    //地图模式切换监听
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

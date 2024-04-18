@@ -62,8 +62,9 @@
         <activity android:name=".route.BusRouteDetailActivity" />
         <activity android:name=".route.DriveRouteDetailActivity" />
         <activity android:name=".route.WalkRouteDetailActivity" />
-        <activity android:name=".poisearch.PoiKeywordSearchActivity" /> <!-- 定位service -->
-        <service android:name="com.amap.api.location.APSService" />
+        <activity android:name=".poisearch.PoiKeywordSearchActivity" />
+        <activity android:name=".weather.WeatherActivity" />
+        <service android:name="com.amap.api.location.APSService" /> <!-- 定位service -->
     </application>
 
 </manifest>

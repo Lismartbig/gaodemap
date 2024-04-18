@@ -18,9 +18,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-//import android.support.v4.app.FragmentActivity;
-
-
 import androidx.fragment.app.FragmentActivity;
 
 import com.amap.api.maps.AMap;
