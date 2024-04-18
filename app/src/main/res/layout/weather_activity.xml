@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/weather_live"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="#FFFFFF"/>
         <TextView
             android:id="@+id/reporttime1"
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:text="@string/report_time"
             android:textColor="#FFFFFF"/>
     </LinearLayout>
@@ -97,7 +97,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/weather_forecast"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="#FFFFFF"/>
         <TextView
             android:id="@+id/reporttime2"
@@ -105,7 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:text="@string/report_time"
             android:textColor="#FFFFFF"/>
     </LinearLayout>
