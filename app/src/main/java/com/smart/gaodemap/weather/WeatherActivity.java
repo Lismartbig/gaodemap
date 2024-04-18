@@ -1,9 +1,13 @@
 package com.smart.gaodemap.weather;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -18,7 +22,18 @@ import com.amap.api.services.weather.LocalWeatherLiveResult;
 import com.amap.api.services.weather.WeatherSearch;
 import com.amap.api.services.weather.WeatherSearch.OnWeatherSearchListener;
 import com.amap.api.services.weather.WeatherSearchQuery;
+import com.lljjcoder.Interface.OnCityItemClickListener;
+import com.lljjcoder.bean.CityBean;
+import com.lljjcoder.bean.DistrictBean;
+import com.lljjcoder.bean.ProvinceBean;
+import com.lljjcoder.citywheel.CityConfig;
+import com.lljjcoder.style.citylist.Toast.ToastUtils;
+import com.lljjcoder.style.citylist.utils.CityListLoader;
+import com.lljjcoder.style.citypickerview.CityPickerView;
+import com.lljjcoder.style.citythreelist.ProvinceActivity;
+import com.smart.gaodemap.MainActivity;
 import com.smart.gaodemap.R;
+import com.smart.gaodemap.route.RouteActivity;
 import com.smart.gaodemap.util.ToastUtil;
 
 import java.util.List;
@@ -43,13 +58,16 @@ public class WeatherActivity extends Activity implements OnWeatherSearchListener
     private AMapLocationClient mLocationClient;
     //声明定位回调监听器
     private AMapLocationClientOption mLocationOption;
-
+    CityPickerView mPicker=new CityPickerView();
     private String cityname;//天气搜索的城市，可以写名称或adcode；
-
+    private TextView citytx;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.weather_activity);
+
+        //预先加载仿iOS滚轮实现的全部数据
+        mPicker.init(this);
         try {
             startLocaion();
         } catch (Exception e) {
@@ -57,14 +75,38 @@ public class WeatherActivity extends Activity implements OnWeatherSearchListener
         }
 
         init();
+
 //        searchliveweather();
 //        searchforcastsweather();
     }
 
+
+    //城市选择器的回调方法
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ProvinceActivity.RESULT_DATA) {
+            if (resultCode == RESULT_OK) {
+                if (data == null) {
+                    return;
+                }
+                //省份结果
+                CityBean province = data.getParcelableExtra("province");
+                //城市结果
+                CityBean city = data.getParcelableExtra("city");
+                //区域结果
+                CityBean area = data.getParcelableExtra("area");
+
+                //显示/
+                String cityString = province.getName()+city.getName()+area.getName();
+                Toast.makeText(this, cityString, Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
     public void startLocaion() throws Exception {
         mLocationClient = new AMapLocationClient(getApplicationContext());
         mLocationClient.setLocationListener(mLocationListener);
-
+        citytx = (TextView) findViewById(R.id.weather_city);
         mLocationOption = new AMapLocationClientOption();
         //设置定位模式为AMapLocationMode.Hight_Accuracy，高精度模式。
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
@@ -80,6 +122,30 @@ public class WeatherActivity extends Activity implements OnWeatherSearchListener
         mLocationClient.setLocationOption(mLocationOption);
         //启动定位
         mLocationClient.startLocation();
+        citytx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //添加默认的配置，不需要自己定义，当然也可以自定义相关熟悉，详细属性请看demo
+                CityConfig cityConfig = new CityConfig.Builder().build();
+                mPicker.setConfig(cityConfig);
+                //监听选择点击事件及返回结果
+                mPicker.setOnCityItemClickListener(new OnCityItemClickListener() {
+                    @Override
+                    public void onSelected(ProvinceBean province, CityBean city, DistrictBean district) {
+                        if(district == null){
+                            cityname = city.getName();
+                        }else {
+                            cityname = district.getName();
+                        }
+                        citytx.setText(cityname);
+                        searchliveweather();
+                        searchforcastsweather();
+                    }
+                });
+                //显示
+                mPicker.showCityPicker( );
+            }
+        });
     }
 
 
@@ -95,8 +161,7 @@ public class WeatherActivity extends Activity implements OnWeatherSearchListener
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            TextView city = (TextView) findViewById(R.id.city);
-                            city.setText(cityname);
+                            citytx.setText(cityname);
                             // 一旦完成定位，立即进行天气查询
                             searchliveweather();
                             searchforcastsweather();
@@ -114,8 +179,8 @@ public class WeatherActivity extends Activity implements OnWeatherSearchListener
 
 
     private void init() {
-        TextView city = (TextView) findViewById(R.id.city);
-        city.setText(cityname);
+//        TextView city = (TextView) findViewById(R.id.city);
+        citytx.setText(cityname);
         forecasttv = (TextView) findViewById(R.id.forecast);
         reporttime1 = (TextView) findViewById(R.id.reporttime1);
         reporttime2 = (TextView) findViewById(R.id.reporttime2);
