@@ -10,6 +10,7 @@ public class SchemeBusStep extends BusStep {
 	private boolean istaxi = false;
 	private boolean isStart = false;
 	private boolean isEnd = false;
+	private boolean arrowExpend = false;
 
 	public SchemeBusStep(BusStep step) {
 		if (step != null) {
@@ -18,6 +19,14 @@ public class SchemeBusStep extends BusStep {
 			this.setRailway(step.getRailway());
 			this.setTaxi(step.getTaxi());
 		}
+	}
+
+	public boolean isArrowExpend() {
+		return arrowExpend;
+	}
+
+	public void setArrowExpend(boolean arrowExpend) {
+		this.arrowExpend = arrowExpend;
 	}
 
 	public boolean isWalk() {
@@ -67,8 +76,8 @@ public class SchemeBusStep extends BusStep {
 	public void setTaxi(boolean istaxi) {
 		this.istaxi = istaxi;
 	}
-	
-	
-	
+
+
+
 
 }

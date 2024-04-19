@@ -1,106 +1,58 @@
 package com.smart.gaodemap.route;
 
-import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.amap.api.services.route.WalkStep;
-import com.smart.gaodemap.R;
-import com.smart.gaodemap.util.AMapUtil;
+import androidx.annotation.Nullable;
 
-import java.util.ArrayList;
+import com.amap.api.services.route.WalkStep;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.smart.gaodemap.R;
+import com.smart.gaodemap.util.MapUtil;
+
 import java.util.List;
 
 /**
- * 步行路线详情页adapter
- * 
+ * 步行段列表适配器
  */
-public class WalkSegmentListAdapter extends BaseAdapter {
-	private Context mContext;
-	private List<WalkStep> mItemList = new ArrayList<WalkStep>();
+public class WalkSegmentListAdapter extends BaseQuickAdapter<WalkStep, BaseViewHolder> {
 
-	public WalkSegmentListAdapter(Context applicationContext,
-                                  List<WalkStep> steps) {
-		mContext = applicationContext;
-		mItemList.add(new WalkStep());
-		for (WalkStep walkStep : steps) {
-			mItemList.add(walkStep);
-		}
-		mItemList.add(new WalkStep());
+	private List<WalkStep> mItemList;
+
+	public WalkSegmentListAdapter(int layoutResId, @Nullable List<WalkStep> data) {
+		super(layoutResId, data);
+		mItemList = data;
 	}
 
 	@Override
-	public int getCount() {
-		return mItemList.size();
-	}
-
-	@Override
-	public Object getItem(int position) {
-		return mItemList.get(position);
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return position;
-	}
-
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder holder = null;
-		if (convertView == null) {
-			holder = new ViewHolder();
-			convertView = View.inflate(mContext, R.layout.item_bus_segment,
-					null);
-			holder.lineName = (TextView) convertView
-					.findViewById(R.id.bus_line_name);
-			holder.dirIcon = (ImageView) convertView
-					.findViewById(R.id.bus_dir_icon);
-			holder.dirUp = (ImageView) convertView
-					.findViewById(R.id.bus_dir_icon_up);
-			holder.dirDown = (ImageView) convertView
-					.findViewById(R.id.bus_dir_icon_down);
-			holder.splitLine = (ImageView) convertView
-					.findViewById(R.id.bus_seg_split_line);
-			convertView.setTag(holder);
-		} else {
-			holder = (ViewHolder) convertView.getTag();
-		}
-		final WalkStep item = mItemList.get(position);
+	protected void convert(BaseViewHolder helper, WalkStep item) {
+		TextView lineName = helper.getView(R.id.bus_line_name);
+		ImageView dirIcon = helper.getView(R.id.bus_dir_icon);
+		ImageView dirUp = helper.getView(R.id.bus_dir_icon_up);
+		ImageView dirDown = helper.getView(R.id.bus_dir_icon_down);
+		ImageView splitLine = helper.getView(R.id.bus_seg_split_line);
+		int position = getItemPosition(item);
 		if (position == 0) {
-			holder.dirIcon.setImageResource(R.drawable.dir_start);
-			holder.lineName.setText("出发");
-			holder.dirUp.setVisibility(View.INVISIBLE);
-			holder.dirDown.setVisibility(View.VISIBLE);
-			holder.splitLine.setVisibility(View.INVISIBLE);
-			return convertView;
+			dirIcon.setImageResource(R.drawable.dir_start);
+			lineName.setText("出发");
+			dirUp.setVisibility(View.INVISIBLE);
+			dirDown.setVisibility(View.VISIBLE);
+			splitLine.setVisibility(View.INVISIBLE);
 		} else if (position == mItemList.size() - 1) {
-			holder.dirIcon.setImageResource(R.drawable.dir_end);
-			holder.lineName.setText("到达终点");
-			holder.dirUp.setVisibility(View.VISIBLE);
-			holder.dirDown.setVisibility(View.INVISIBLE);
-			return convertView;
+			dirIcon.setImageResource(R.drawable.dir_end);
+			lineName.setText("到达终点");
+			dirUp.setVisibility(View.VISIBLE);
+			dirDown.setVisibility(View.INVISIBLE);
 		} else {
-			holder.splitLine.setVisibility(View.VISIBLE);
-			holder.dirUp.setVisibility(View.VISIBLE);
-			holder.dirDown.setVisibility(View.VISIBLE);
+			splitLine.setVisibility(View.VISIBLE);
+			dirUp.setVisibility(View.VISIBLE);
+			dirDown.setVisibility(View.VISIBLE);
 			String actionName = item.getAction();
-			int resID = AMapUtil.getWalkActionID(actionName);
-			holder.dirIcon.setImageResource(resID);
-			holder.lineName.setText(item.getInstruction());
-			return convertView;
+			int resID = MapUtil.getWalkActionID(actionName);
+			dirIcon.setImageResource(resID);
+			lineName.setText(item.getInstruction());
 		}
-		
 	}
-
-	private class ViewHolder {
-		TextView lineName;
-		ImageView dirIcon;
-		ImageView dirUp;
-		ImageView dirDown;
-		ImageView splitLine;
-	}
-
 }

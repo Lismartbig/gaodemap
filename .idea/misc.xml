@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/ASWork/gaodemap/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1735" />
+        <entry key="..\:/ASWork/gaodemap/app/src/main/res/drawable/ic_black_24dp.xml" value="0.201" />
         <entry key="..\:/ASWork/gaodemap/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1735" />
         <entry key="..\:/ASWork/gaodemap/app/src/main/res/drawable/shape_white.xml" value="0.149" />
         <entry key="..\:/ASWork/gaodemap/app/src/main/res/layout/activity_main.xml" value="0.1" />
@@ -12,17 +13,18 @@
         <entry key="..\:/ASWork/gaodemap/app/src/main/res/layout/item_bus_result.xml" value="0.338768115942029" />
         <entry key="..\:/ASWork/gaodemap/app/src/main/res/layout/item_bus_segment.xml" value="0.338768115942029" />
         <entry key="..\:/ASWork/gaodemap/app/src/main/res/layout/item_bus_segment_ex.xml" value="0.338768115942029" />
+        <entry key="..\:/ASWork/gaodemap/app/src/main/res/layout/item_segment.xml" value="0.338768115942029" />
+        <entry key="..\:/ASWork/gaodemap/app/src/main/res/layout/item_segment_ex.xml" value="0.338768115942029" />
         <entry key="..\:/ASWork/gaodemap/app/src/main/res/layout/route_activity.xml" value="0.338768115942029" />
         <entry key="..\:/Android1/workSpace/GaoDeMap/app/src/main/res/drawable/btn_shape.xml" value="0.1" />
         <entry key="..\:/Android1/workSpace/GaoDeMap/app/src/main/res/drawable/button_main.xml" value="0.124" />
-        <entry key="..\:/Android1/workSpace/GaoDeMap/app/src/main/res/drawable/float_back.xml" value="0.1" />
         <entry key="..\:/Android1/workSpace/GaoDeMap/app/src/main/res/drawable/shape_white.xml" value="0.1" />
-        <entry key="..\:/Android1/workSpace/GaoDeMap/app/src/main/res/layout/activity_main.xml" value="0.21611721611721613" />
+        <entry key="..\:/Android1/workSpace/GaoDeMap/app/src/main/res/layout/activity_main.xml" value="0.25263157894736843" />
         <entry key="..\:/Android1/workSpace/GaoDeMap/app/src/main/res/layout/activity_map.xml" value="0.1" />
         <entry key="..\:/Android1/workSpace/GaoDeMap/app/src/main/res/layout/layout.xml" value="0.23177083333333334" />
         <entry key="..\:/Android1/workSpace/GaoDeMap/app/src/main/res/layout/marker_activity.xml" value="0.1" />
         <entry key="..\:/Android1/workSpace/GaoDeMap/app/src/main/res/layout/poikeywordsearch_activity.xml" value="0.10092592592592593" />
-        <entry key="..\:/Android1/workSpace/GaoDeMap/app/src/main/res/layout/weather_activity.xml" value="0.264" />
+        <entry key="..\:/Android1/workSpace/GaoDeMap/app/src/main/res/layout/weather_activity.xml" value="0.19021739130434784" />
       </map>
     </option>
   </component>

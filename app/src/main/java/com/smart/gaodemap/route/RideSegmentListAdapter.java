@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import com.amap.api.services.route.DriveStep;
+import com.amap.api.services.route.RideStep;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.smart.gaodemap.R;
@@ -15,21 +15,21 @@ import com.smart.gaodemap.util.MapUtil;
 import java.util.List;
 
 /**
- * 驾车段列表适配器
+ * 骑行段列表适配器
  *
  * @author llw
- * @date 2021/2/23 11:18
+ * @date 2021/2/23 10:25
  */
-public class DriveSegmentListAdapter extends BaseQuickAdapter<DriveStep, BaseViewHolder> {
-	private List<DriveStep> mItemList;
+public class RideSegmentListAdapter extends BaseQuickAdapter<RideStep, BaseViewHolder> {
+	private List<RideStep> mItemList;
 
-	public DriveSegmentListAdapter(int layoutResId, @Nullable List<DriveStep> data) {
+	public RideSegmentListAdapter(int layoutResId, @Nullable List<RideStep> data) {
 		super(layoutResId, data);
 		mItemList = data;
 	}
 
 	@Override
-	protected void convert(BaseViewHolder helper, DriveStep item) {
+	protected void convert(BaseViewHolder helper, RideStep item) {
 		TextView lineName = helper.getView(R.id.bus_line_name);
 		ImageView dirIcon = helper.getView(R.id.bus_dir_icon);
 		ImageView dirUp = helper.getView(R.id.bus_dir_icon_up);
@@ -52,7 +52,7 @@ public class DriveSegmentListAdapter extends BaseQuickAdapter<DriveStep, BaseVie
 			dirUp.setVisibility(View.VISIBLE);
 			dirDown.setVisibility(View.VISIBLE);
 			String actionName = item.getAction();
-			int resID = MapUtil.getDriveActionID(actionName);
+			int resID = MapUtil.getWalkActionID(actionName);
 			dirIcon.setImageResource(resID);
 			lineName.setText(item.getInstruction());
 		}
