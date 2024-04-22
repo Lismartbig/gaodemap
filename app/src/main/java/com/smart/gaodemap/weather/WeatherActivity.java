@@ -2,7 +2,6 @@ package com.smart.gaodemap.weather;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,13 +26,9 @@ import com.lljjcoder.bean.CityBean;
 import com.lljjcoder.bean.DistrictBean;
 import com.lljjcoder.bean.ProvinceBean;
 import com.lljjcoder.citywheel.CityConfig;
-import com.lljjcoder.style.citylist.Toast.ToastUtils;
-import com.lljjcoder.style.citylist.utils.CityListLoader;
 import com.lljjcoder.style.citypickerview.CityPickerView;
 import com.lljjcoder.style.citythreelist.ProvinceActivity;
-import com.smart.gaodemap.MainActivity;
 import com.smart.gaodemap.R;
-import com.smart.gaodemap.route.RouteActivity;
 import com.smart.gaodemap.util.ToastUtil;
 
 import java.util.List;
@@ -65,7 +60,7 @@ public class WeatherActivity extends Activity implements OnWeatherSearchListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.weather_activity);
-
+        citytx = (TextView) findViewById(R.id.weather_city);
         //预先加载仿iOS滚轮实现的全部数据
         mPicker.init(this);
         try {
@@ -75,7 +70,6 @@ public class WeatherActivity extends Activity implements OnWeatherSearchListener
         }
 
         init();
-
 //        searchliveweather();
 //        searchforcastsweather();
     }
@@ -103,10 +97,12 @@ public class WeatherActivity extends Activity implements OnWeatherSearchListener
             }
         }
     }
+
+    //定位获取地区
     public void startLocaion() throws Exception {
         mLocationClient = new AMapLocationClient(getApplicationContext());
         mLocationClient.setLocationListener(mLocationListener);
-        citytx = (TextView) findViewById(R.id.weather_city);
+//        citytx = (TextView) findViewById(R.id.weather_city);
         mLocationOption = new AMapLocationClientOption();
         //设置定位模式为AMapLocationMode.Hight_Accuracy，高精度模式。
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
@@ -148,7 +144,6 @@ public class WeatherActivity extends Activity implements OnWeatherSearchListener
         });
     }
 
-
     //声明定位回调监听器
     public AMapLocationListener mLocationListener = new AMapLocationListener() {
         @Override
@@ -180,7 +175,7 @@ public class WeatherActivity extends Activity implements OnWeatherSearchListener
 
     private void init() {
 //        TextView city = (TextView) findViewById(R.id.city);
-        citytx.setText(cityname);
+//        citytx.setText(cityname);
         forecasttv = (TextView) findViewById(R.id.forecast);
         reporttime1 = (TextView) findViewById(R.id.reporttime1);
         reporttime2 = (TextView) findViewById(R.id.reporttime2);

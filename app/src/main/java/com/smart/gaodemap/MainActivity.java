@@ -102,10 +102,12 @@ public class MainActivity extends Activity implements OnClickListener{
         mMapView.getMap().getUiSettings().setScaleControlsEnabled(false);//控制比例尺控件是否显示
         mMapView.getMap().getUiSettings().setCompassEnabled(false);//指南针控件
 
-
         if (aMap == null) {
             aMap = mMapView.getMap();
         }
+
+        //开启室内地图
+        aMap.showIndoorMap(true);
 
         basicmap = (Button)findViewById(R.id.basicmap);
         basicmap.setOnClickListener(this);

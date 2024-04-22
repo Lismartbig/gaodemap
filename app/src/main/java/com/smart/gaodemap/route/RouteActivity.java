@@ -128,7 +128,7 @@ public class RouteActivity extends AppCompatActivity implements
     private AutoCompleteTextView etEndAddress;
 
     private Button btNavigation;
-
+    private Button btRouteSearch;
     //地理编码搜索
     private GeocodeSearch geocodeSearch;
     //解析成功标识码
@@ -147,6 +147,7 @@ public class RouteActivity extends AppCompatActivity implements
         etEndAddress.setOnKeyListener(this);
         etEndAddress.addTextChangedListener(this);// 添加文本输入框监听事件
         btNavigation = findViewById(R.id.bt_navigation);
+        btRouteSearch = findViewById(R.id.bt_routsearch);
         //初始化定位
         initLocation();
         //初始化地图
@@ -159,6 +160,14 @@ public class RouteActivity extends AppCompatActivity implements
         //初始化出行方式
         initTravelMode();
         NavigationClick();
+
+        btRouteSearch = findViewById(R.id.bt_routsearch); // 假设按钮的ID是bt
+        btRouteSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                performSearch();
+            }
+        });
     }
 
     /**
@@ -657,12 +666,15 @@ public class RouteActivity extends AppCompatActivity implements
                 if (tag == 1) {
                     //起点
                     mStartPoint = geocodeAddressList.get(0).getLatLonPoint();
-                } else {
+                }
+                else {
                     //终点
                     mEndPoint = geocodeAddressList.get(0).getLatLonPoint();
                 }
 
                 if (mStartPoint != null && mEndPoint != null) {
+//                    // 设置起点或终点坐标
+//                    mEndPoint = geocodeAddressList.get(0).getLatLonPoint();
                     //开始路线搜索
                     startRouteSearch();
                 }
@@ -671,10 +683,40 @@ public class RouteActivity extends AppCompatActivity implements
             showMsg("获取坐标失败");
         }
     }
+    private void performSearch() {
+        //获取输入框的值 出发地（起点）
+        String startAddress = etStartAddress.getText().toString().trim();
+        //获取输入框的值 目的地（终点）
+        String endAddress = etEndAddress.getText().toString().trim();
 
+        //判断出发地是否有值  不管这个值是定位还是手动输入
+        if (startAddress.isEmpty()) {
+            showMsg("请输入当前的出发地");
+            return;
+        }
+        //判断目的地是否有值
+        if (endAddress.isEmpty()) {
+            showMsg("请输入要前往的目的地");
+            return;
+        }
+
+        //如果用户输入的起点不是定位的地址，则需要地理编码转换
+        if (!locationAddress.equals(startAddress)) {
+            tag = 1;
+            GeocodeQuery startQuery = new GeocodeQuery(startAddress, city);
+            geocodeSearch.getFromLocationNameAsyn(startQuery);
+        } else {
+            tag = -1;
+        }
+
+        //转换用户输入的终点地址
+        GeocodeQuery endQuery = new GeocodeQuery(endAddress, city);
+        geocodeSearch.getFromLocationNameAsyn(endQuery);
+    }
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
+            showMsg("key"+keyCode);
             //获取输入框的值 出发地（起点）
             String startAddress = etStartAddress.getText().toString().trim();
             //获取输入框的值 目的地（终点）
@@ -696,7 +738,9 @@ public class RouteActivity extends AppCompatActivity implements
                 tag = 1;
                 GeocodeQuery startQuery = new GeocodeQuery(startAddress, city);
                 geocodeSearch.getFromLocationNameAsyn(startQuery);
-            } else {
+            }
+            else {
+                //查询终点地址
                 tag = -1;
             }
 
@@ -753,20 +797,41 @@ public class RouteActivity extends AppCompatActivity implements
             ToastUtil.showerror(this, rCode);
         }
     }
-
-    public void NavigationClick(AMapLocation aMapLocation,RecyclerView parent, View view, int postion, com.amap.api.navi.model.search.Tip data) {
+    private void NavigationClick() {
         btNavigation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //得到点击的坐标
-                com.amap.api.navi.model.search.LatLonPoint point = data.getPoint();
-                //得到经纬度
-                Poi poi = new Poi(data.getName(), new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude()), data.getPoiID());
-                //导航参数对象（起点，途径，终点，导航方式）DRIVER是导航方式（驾驶，步行...当前为驾驶）ROUTE会计算路程选择
-                AmapNaviParams params = new AmapNaviParams(null, null, poi, AmapNaviType.DRIVER, AmapPageType.ROUTE);
-                //传递上下文和导航参数
-                AmapNaviPage.getInstance().showRouteActivity(getApplicationContext(), params, null);
+                // 确保起点和终点坐标已经准备好
+                if(mStartPoint != null && mEndPoint != null) {
+                    // 为起点和终点创建导航 Poi 对象
+                    Poi startPoi = new Poi("起点", new LatLng(mStartPoint.getLatitude(), mStartPoint.getLongitude()), "");
+                    Poi endPoi = new Poi("终点", new LatLng(mEndPoint.getLatitude(), mEndPoint.getLongitude()), "");
+
+                    // 设置导航参数
+                    AmapNaviParams params = new AmapNaviParams(startPoi, null, endPoi, AmapNaviType.DRIVER, AmapPageType.ROUTE);
+                    // 启动导航页面
+                    AmapNaviPage.getInstance().showRouteActivity(getApplicationContext(), params, null);
+                } else {
+                    // 如果起点或终点为空，提示用户
+                    showMsg("起点或终点信息不完整，请确保输入的地址有效并进行了坐标转换"+"1:"+mStartPoint+"2:"+mEndPoint);
+                }
             }
         });
     }
+//    public void NavigationClick(AMapLocation aMapLocation,RecyclerView parent, View view, int postion, com.amap.api.navi.model.search.Tip data) {
+//        btNavigation.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //得到点击的坐标
+//                com.amap.api.navi.model.search.LatLonPoint point = data.getPoint();
+//                //得到经纬度
+//                //mEndPoint
+//                Poi poi = new Poi(city, new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude()), data.getPoiID());
+//                //导航参数对象（起点，途径，终点，导航方式）DRIVER是导航方式（驾驶，步行...当前为驾驶）ROUTE会计算路程选择
+//                AmapNaviParams params = new AmapNaviParams(null, null, poi, AmapNaviType.DRIVER, AmapPageType.ROUTE);
+//                //传递上下文和导航参数
+//                AmapNaviPage.getInstance().showRouteActivity(getApplicationContext(), params, null);
+//            }
+//        });
+//    }
 }

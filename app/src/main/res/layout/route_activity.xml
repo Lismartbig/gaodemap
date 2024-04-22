@@ -37,9 +37,9 @@
         </LinearLayout>
 
         <RelativeLayout
-            android:layout_below="@id/method"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/method"
             android:paddingStart="6dp"
             android:paddingEnd="6dp">
 
@@ -98,11 +98,19 @@
                 android:textColor="#000"
                 android:textSize="14sp" />
 
+            <Button
+                android:id="@+id/bt_routsearch"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:text="查看路线"
+                android:layout_below="@+id/et_end_address"
+                android:background="#000" />
+
             <View
-                android:id="@+id/line"
+                android:id="@+id/linev"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_below="@+id/et_end_address"
+                android:layout_below="@+id/bt_routsearch"
                 android:background="#000" />
 
 
@@ -116,7 +124,7 @@
         android:id="@+id/map_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/top_layout"/>
+        android:layout_below="@+id/top_layout" />
 
     <Button
         android:id="@+id/bt_navigation"

@@ -137,8 +137,8 @@
 
                 <Button
                     android:id="@+id/bt_rute"
-                    android:layout_width="65dp"
-                    android:layout_height="65dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="20dp"
@@ -147,7 +147,7 @@
                     android:lineSpacingExtra="20dp" />
 
                 <TextView
-                    android:layout_width="65dp"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/bt_rute"
                     android:gravity="center"
@@ -163,8 +163,8 @@
                 android:layout_marginEnd="5dp">
                 <Button
                     android:id="@+id/bt_poi"
-                    android:layout_width="65dp"
-                    android:layout_height="65dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:background="@drawable/poi_main"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="20dp"
@@ -173,7 +173,7 @@
                     android:lineSpacingExtra="20dp"/>
 
                 <TextView
-                    android:layout_width="65dp"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/bt_poi"
                     android:gravity="center"
@@ -190,8 +190,8 @@
                 android:layout_marginEnd="5dp">
                 <Button
                     android:id="@+id/bt_weather"
-                    android:layout_width="65dp"
-                    android:layout_height="65dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:background="@drawable/weather_main"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="20dp"
@@ -200,7 +200,7 @@
                     android:lineSpacingExtra="20dp"/>
 
                 <TextView
-                    android:layout_width="65dp"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/bt_weather"
                     android:gravity="center"
@@ -215,8 +215,8 @@
                 android:layout_marginStart="5dp">
                 <Button
                     android:id="@+id/bt_navigation"
-                    android:layout_width="65dp"
-                    android:layout_height="65dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:background="@drawable/daohang2_main"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="20dp"
@@ -225,7 +225,7 @@
                     android:lineSpacingExtra="20dp"/>
 
                 <TextView
-                    android:layout_width="65dp"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/bt_navigation"
                     android:gravity="center"
