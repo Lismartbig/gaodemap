@@ -1,6 +1,7 @@
 package com.smart.gaodemap.route;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -33,6 +35,11 @@ import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
+import com.amap.api.maps.model.Poi;
+import com.amap.api.navi.AmapNaviPage;
+import com.amap.api.navi.AmapNaviParams;
+import com.amap.api.navi.AmapNaviType;
+import com.amap.api.navi.AmapPageType;
 import com.amap.api.services.core.AMapException;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.geocoder.GeocodeAddress;
@@ -120,6 +127,8 @@ public class RouteActivity extends AppCompatActivity implements
     private EditText etStartAddress;
     private AutoCompleteTextView etEndAddress;
 
+    private Button btNavigation;
+
     //地理编码搜索
     private GeocodeSearch geocodeSearch;
     //解析成功标识码
@@ -137,6 +146,7 @@ public class RouteActivity extends AppCompatActivity implements
         etEndAddress = findViewById(R.id.et_end_address);
         etEndAddress.setOnKeyListener(this);
         etEndAddress.addTextChangedListener(this);// 添加文本输入框监听事件
+        btNavigation = findViewById(R.id.bt_navigation);
         //初始化定位
         initLocation();
         //初始化地图
@@ -148,6 +158,7 @@ public class RouteActivity extends AppCompatActivity implements
         initRoute();
         //初始化出行方式
         initTravelMode();
+        NavigationClick();
     }
 
     /**
@@ -741,5 +752,21 @@ public class RouteActivity extends AppCompatActivity implements
         } else {
             ToastUtil.showerror(this, rCode);
         }
+    }
+
+    public void NavigationClick(AMapLocation aMapLocation,RecyclerView parent, View view, int postion, com.amap.api.navi.model.search.Tip data) {
+        btNavigation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //得到点击的坐标
+                com.amap.api.navi.model.search.LatLonPoint point = data.getPoint();
+                //得到经纬度
+                Poi poi = new Poi(data.getName(), new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude()), data.getPoiID());
+                //导航参数对象（起点，途径，终点，导航方式）DRIVER是导航方式（驾驶，步行...当前为驾驶）ROUTE会计算路程选择
+                AmapNaviParams params = new AmapNaviParams(null, null, poi, AmapNaviType.DRIVER, AmapPageType.ROUTE);
+                //传递上下文和导航参数
+                AmapNaviPage.getInstance().showRouteActivity(getApplicationContext(), params, null);
+            }
+        });
     }
 }

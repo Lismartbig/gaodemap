@@ -62,9 +62,15 @@
         <activity android:name=".base.map.OriginalMapActivity" />
         <activity android:name=".route.RouteActivity" />
         <activity android:name=".route.RouteDetailActivity" />
+        <activity android:name=".route.NavigationActivity"/>
         <activity android:name=".poisearch.PoiKeywordSearchActivity" />
         <activity android:name=".weather.WeatherActivity" />
         <service android:name="com.amap.api.location.APSService" /> <!-- 定位service -->
+        <activity
+            android:name="com.amap.api.navi.AmapRouteActivity"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:configChanges="orientation|keyboardHidden|screenSize|navigation" />
+
     </application>
 
 </manifest>
