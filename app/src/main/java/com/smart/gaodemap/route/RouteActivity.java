@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -37,6 +40,9 @@ import com.amap.api.services.geocoder.GeocodeQuery;
 import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeResult;
+import com.amap.api.services.help.Inputtips;
+import com.amap.api.services.help.InputtipsQuery;
+import com.amap.api.services.help.Tip;
 import com.amap.api.services.route.BusPath;
 import com.amap.api.services.route.BusRouteResult;
 import com.amap.api.services.route.DrivePath;
@@ -52,8 +58,12 @@ import overlay.RideRouteOverlay;
 import overlay.WalkRouteOverlay;
 
 import com.smart.gaodemap.R;
+import com.smart.gaodemap.poisearch.PoiKeywordSearchActivity;
+import com.smart.gaodemap.util.AMapUtil;
 import com.smart.gaodemap.util.MapUtil;
+import com.smart.gaodemap.util.ToastUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.smart.gaodemap.util.MapUtil.convertToLatLng;
@@ -65,7 +75,7 @@ import static com.smart.gaodemap.util.MapUtil.convertToLatLonPoint;
 public class RouteActivity extends AppCompatActivity implements
         AMapLocationListener, LocationSource, AMap.OnMapClickListener,
         RouteSearch.OnRouteSearchListener, EditText.OnKeyListener,
-        GeocodeSearch.OnGeocodeSearchListener {
+        GeocodeSearch.OnGeocodeSearchListener,TextWatcher, Inputtips.InputtipsListener {
 
     private static final String TAG = "RouteActivity";
     //地图
@@ -107,7 +117,8 @@ public class RouteActivity extends AppCompatActivity implements
     private TextView tvTime;
 
     //起点、终点
-    private EditText etStartAddress, etEndAddress;
+    private EditText etStartAddress;
+    private AutoCompleteTextView etEndAddress;
 
     //地理编码搜索
     private GeocodeSearch geocodeSearch;
@@ -123,6 +134,9 @@ public class RouteActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.route_activity);
+        etEndAddress = findViewById(R.id.et_end_address);
+        etEndAddress.setOnKeyListener(this);
+        etEndAddress.addTextChangedListener(this);// 添加文本输入框监听事件
         //初始化定位
         initLocation();
         //初始化地图
@@ -148,10 +162,8 @@ public class RouteActivity extends AppCompatActivity implements
 
         etStartAddress = findViewById(R.id.et_start_address);
 
-        etEndAddress = findViewById(R.id.et_end_address);
         //键盘按键监听
         etStartAddress.setOnKeyListener(this);
-        etEndAddress.setOnKeyListener(this);
 
         //将可选内容与ArrayAdapter连接起来
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, travelModeArray);
@@ -236,7 +248,6 @@ public class RouteActivity extends AppCompatActivity implements
         aMap.setMyLocationEnabled(true);
         //地图点击监听
         aMap.setOnMapClickListener(this);
-
 
         //构造 GeocodeSearch 对象
         try {
@@ -690,5 +701,45 @@ public class RouteActivity extends AppCompatActivity implements
             return true;
         }
         return false;
+    }
+
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count,
+                                  int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        String newText = s.toString().trim();
+        if (!AMapUtil.IsEmptyOrNullString(newText)) {
+            InputtipsQuery inputquery = new InputtipsQuery(newText, "");
+            Inputtips inputTips = new Inputtips(RouteActivity.this, inputquery);
+            inputTips.setInputtipsListener(this);
+            inputTips.requestInputtipsAsyn();
+        }
+    }
+
+    @Override
+    public void onGetInputtips(List<Tip> tipList, int rCode) {
+        if (rCode == AMapException.CODE_AMAP_SUCCESS) {// 正确返回
+            List<String> listString = new ArrayList<String>();
+            for (int i = 0; i < tipList.size(); i++) {
+                listString.add(tipList.get(i).getName());
+            }
+            ArrayAdapter<String> aAdapter = new ArrayAdapter<String>(
+                    getApplicationContext(),
+                    R.layout.route_inputs, listString);
+            etEndAddress.setAdapter(aAdapter);
+            aAdapter.notifyDataSetChanged();
+        } else {
+            ToastUtil.showerror(this, rCode);
+        }
     }
 }

@@ -396,8 +396,6 @@ public class PoiKeywordSearchActivity extends FragmentActivity implements
 		}
 	}
 
-
-
 	@Override
 	public void onGetInputtips(List<Tip> tipList, int rCode) {
 		if (rCode == AMapException.CODE_AMAP_SUCCESS) {// 正确返回
@@ -413,6 +411,5 @@ public class PoiKeywordSearchActivity extends FragmentActivity implements
 		} else {
 			ToastUtil.showerror(this, rCode);
 		}
-		
 	}
 }

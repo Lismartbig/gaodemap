@@ -7,13 +7,14 @@
     android:orientation="vertical"
     tools:context="com.smart.gaodemap.route.RouteActivity">
     <!--设置出行方式-->
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/top_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/method"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -36,6 +37,7 @@
         </LinearLayout>
 
         <RelativeLayout
+            android:layout_below="@id/method"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="6dp"
@@ -79,7 +81,7 @@
                 android:textColor="#000"
                 android:textSize="@dimen/sp_14" />
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/et_end_address"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -88,20 +90,26 @@
                 android:layout_marginTop="8dp"
                 android:layout_toRightOf="@+id/tv_end"
                 android:background="@null"
+                android:completionThreshold="1"
                 android:hint="请输入目的地"
-                android:imeOptions="actionSearch"
+                android:imeOptions="actionDone"
+                android:inputType="text|textAutoComplete"
                 android:singleLine="true"
                 android:textColor="#000"
                 android:textSize="14sp" />
 
             <View
+                android:id="@+id/line"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_below="@+id/et_end_address"
                 android:background="#000" />
+
+
         </RelativeLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
+
     <!--地图-->
     <com.amap.api.maps.MapView
         android:id="@+id/map_view"
