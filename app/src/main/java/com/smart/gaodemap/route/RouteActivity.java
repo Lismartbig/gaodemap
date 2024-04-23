@@ -249,7 +249,7 @@ public class RouteActivity extends AppCompatActivity implements
         //初始化地图控制器对象
         aMap = mapView.getMap();
         //设置最小缩放等级为16 ，缩放级别范围为[3, 20]
-        aMap.setMinZoomLevel(16);
+//        aMap.setMinZoomLevel(16);
         //开启室内地图
         aMap.showIndoorMap(true);
         //实例化UiSettings类对象
@@ -287,7 +287,8 @@ public class RouteActivity extends AppCompatActivity implements
                 locationAddress = aMapLocation.getAddress();
                 //设置当前所在地
                 etStartAddress.setText(locationAddress);
-                //etStartAddress.setEnabled(false);//禁用输入
+                //禁用输入
+                //etStartAddress.setEnabled(false);
 
                 city = aMapLocation.getCity();
 
