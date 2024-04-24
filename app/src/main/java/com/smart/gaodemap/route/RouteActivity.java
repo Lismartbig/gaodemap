@@ -160,7 +160,7 @@ public class RouteActivity extends AppCompatActivity implements
         initRoute();
         //初始化出行方式
         initTravelMode();
-        NavigationClick();
+        //NavigationClick();
 
 
         btRouteSearch.setOnClickListener(new View.OnClickListener() {
@@ -820,20 +820,5 @@ public class RouteActivity extends AppCompatActivity implements
             }
         });
     }
-//    public void NavigationClick(AMapLocation aMapLocation,RecyclerView parent, View view, int postion, com.amap.api.navi.model.search.Tip data) {
-//        btNavigation.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                //得到点击的坐标
-//                com.amap.api.navi.model.search.LatLonPoint point = data.getPoint();
-//                //得到经纬度
-//                //mEndPoint
-//                Poi poi = new Poi(city, new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude()), data.getPoiID());
-//                //导航参数对象（起点，途径，终点，导航方式）DRIVER是导航方式（驾驶，步行...当前为驾驶）ROUTE会计算路程选择
-//                AmapNaviParams params = new AmapNaviParams(null, null, poi, AmapNaviType.DRIVER, AmapPageType.ROUTE);
-//                //传递上下文和导航参数
-//                AmapNaviPage.getInstance().showRouteActivity(getApplicationContext(), params, null);
-//            }
-//        });
-//    }
+
 }

@@ -74,7 +74,7 @@ public class MainActivity extends Activity implements OnClickListener, OnWeather
     private Button bt_rute;
     private Button bt_poi;
     private Button bt_weather;
-    private Button bt_navigation;
+    private Button bt_marker;
     private LinearLayout expandableLayout;
     private FloatingActionButton fabExpand;
     private float lastBearing = 0;
@@ -162,7 +162,7 @@ public class MainActivity extends Activity implements OnClickListener, OnWeather
         bt_rute = (Button)findViewById(R.id.bt_rute);
         bt_poi = (Button)findViewById(R.id.bt_poi);
         bt_weather = (Button)findViewById(R.id.bt_weather);
-        bt_navigation = (Button)findViewById(R.id.bt_navigation);
+        bt_marker = (Button)findViewById(R.id.bt_marker);
         ivCompass = (ImageView)findViewById(R.id.iv_compass);
 
 //        forecasttv = (TextView) findViewById(R.id.weather_forecast);
@@ -247,15 +247,15 @@ public class MainActivity extends Activity implements OnClickListener, OnWeather
                 startActivity(intent);
             }
         });
-//        bt_navigation.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // 创建一个新的Intent来启动TargetActivity
-//                Intent intent = new Intent(MainActivity.this, NavigationActivity.class);
-//                // 启动目标Activity
-//                startActivity(intent);
-//            }
-//        });
+        bt_marker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 创建一个新的Intent来启动TargetActivity
+                Intent intent = new Intent(MainActivity.this, MarkerActivity.class);
+                // 启动目标Activity
+                startActivity(intent);
+            }
+        });
 
         expandableLayout = findViewById(R.id.ly_bt);
         fabExpand = findViewById(R.id.fab);
