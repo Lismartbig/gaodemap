@@ -13,12 +13,10 @@ import android.widget.LinearLayout;
 import android.view.View.OnClickListener;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.core.widget.NestedScrollView;
-
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.AMapOptions;
@@ -27,18 +25,38 @@ import com.amap.api.maps.MapsInitializer;
 import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.MyLocationStyle;
 
+import com.amap.api.services.core.AMapException;
 import com.amap.api.services.core.ServiceSettings;
+import com.amap.api.services.weather.LocalDayWeatherForecast;
+import com.amap.api.services.weather.LocalWeatherForecast;
+import com.amap.api.services.weather.LocalWeatherForecastResult;
+import com.amap.api.services.weather.LocalWeatherLive;
+import com.amap.api.services.weather.LocalWeatherLiveResult;
+import com.amap.api.services.weather.WeatherSearch;
+import com.amap.api.services.weather.WeatherSearch.OnWeatherSearchListener;
+import com.amap.api.services.weather.WeatherSearchQuery;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.lljjcoder.Interface.OnCityItemClickListener;
+import com.lljjcoder.bean.CityBean;
+import com.lljjcoder.bean.DistrictBean;
+import com.lljjcoder.bean.ProvinceBean;
+import com.lljjcoder.citywheel.CityConfig;
+import com.lljjcoder.style.citypickerview.CityPickerView;
 import com.smart.gaodemap.mark.MarkerActivity;
 import com.smart.gaodemap.poisearch.PoiKeywordSearchActivity;
 import com.smart.gaodemap.route.RouteActivity;
+import com.smart.gaodemap.util.ToastUtil;
 import com.smart.gaodemap.weather.WeatherActivity;
 
 import android.view.animation.RotateAnimation;
 import android.view.animation.Animation;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends Activity implements OnClickListener{
+import java.util.List;
+
+public class MainActivity extends Activity implements OnClickListener, OnWeatherSearchListener {
 
     private BottomSheetBehavior bottomSheetBehavior;
     MapView mMapView = null;
@@ -47,7 +65,7 @@ public class MainActivity extends Activity implements OnClickListener{
     //初始化地图控制器对象
     AMap aMap;
     //声明AMapLocationClient类对象
-    public AMapLocationClient mLocationClient = null;
+    public AMapLocationClient mLocationClient;
 
     private Button basicmap;
     private Button rsmap;
@@ -63,10 +81,34 @@ public class MainActivity extends Activity implements OnClickListener{
     private RotateAnimation rotateAnimation;
     private ImageView ivCompass;
 
+//    private TextView forecasttv;
+    private TextView weather;
+    private TextView Temperature;
+    private TextView wind;
+    private TextView humidity;
+    private WeatherSearchQuery mquery;
+    private WeatherSearch mweathersearch;
+    private LocalWeatherLive weatherlive;
+    private LocalWeatherForecast weatherforecast;
+    private List<LocalDayWeatherForecast> forecastlist = null;
+
+    //声明定位回调监听器
+    private AMapLocationClientOption mLocationOption;
+    private String cityname;//天气搜索的城市，可以写名称或adcode；
+    private TextView citytx;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        citytx = (TextView) findViewById(R.id.city_name_weather_card);
+
+        try {
+            startLocaion();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         holder = findViewById(R.id.bottom_sheet);
         BottomSheetBehavior<LinearLayout> behavior = BottomSheetBehavior.from(holder);
@@ -123,7 +165,13 @@ public class MainActivity extends Activity implements OnClickListener{
         bt_navigation = (Button)findViewById(R.id.bt_navigation);
         ivCompass = (ImageView)findViewById(R.id.iv_compass);
 
-        AMapLocationListener mLocationListener = new AMapLocationListener() {
+//        forecasttv = (TextView) findViewById(R.id.weather_forecast);
+        weather = (TextView) findViewById(R.id.weather_this_time);
+        Temperature = (TextView) findViewById(R.id.temp_card);
+        wind = (TextView) findViewById(R.id.wind);
+        humidity = (TextView) findViewById(R.id.humidity);
+
+        mLocationListener = new AMapLocationListener() {
             @Override
             public void onLocationChanged(AMapLocation aMapLocation) {
             }
@@ -260,6 +308,130 @@ public class MainActivity extends Activity implements OnClickListener{
         }
 
     }
+    //定位获取地区
+    public void startLocaion() throws Exception {
+        mLocationClient = new AMapLocationClient(getApplicationContext());
+        mLocationClient.setLocationListener(mLocationListener);
+        mLocationOption = new AMapLocationClientOption();
+        //设置定位模式为AMapLocationMode.Hight_Accuracy，高精度模式。
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        //设置是否返回地址信息（默认返回地址信息）
+        mLocationOption.setNeedAddress(true);
+        //获取一次定位结果：
+        //该方法默认为false。
+        mLocationOption.setOnceLocation(true);
+        //设置是否允许模拟位置,默认为false，不允许模拟位置
+        mLocationOption.setMockEnable(false);
+
+        //给定位客户端对象设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
+        //启动定位
+        mLocationClient.startLocation();
+    }
+
+    //声明定位回调监听器
+    public AMapLocationListener mLocationListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation amapLocation) {
+            if (amapLocation != null) {
+                if (amapLocation.getErrorCode() == 0) {
+                    // 定位成功回调信息，设置相关消息
+                    cityname = amapLocation.getDistrict(); // 或者 amapLocation.getCity()
+                    // 更新UI
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            citytx.setText(cityname);
+                            // 一旦完成定位，立即进行天气查询
+                            searchliveweather();
+                            searchforcastsweather();
+                        }
+                    });
+                } else {
+                    // 显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
+                    Log.e("AmapError", "location Error, ErrCode:"
+                            + amapLocation.getErrorCode() + ", errInfo:"
+                            + amapLocation.getErrorInfo());
+                }
+            }
+        }
+    };
+    /**
+     * 预报天气查询
+     */
+    private void searchforcastsweather() {
+        mquery = new WeatherSearchQuery(cityname, WeatherSearchQuery.WEATHER_TYPE_FORECAST);//检索参数为城市和天气类型，实时天气为1、天气预报为2
+        try {
+            mweathersearch = new WeatherSearch(this);
+            mweathersearch.setOnWeatherSearchListener(this);
+            mweathersearch.setQuery(mquery);
+            mweathersearch.searchWeatherAsyn(); //异步搜索
+        } catch (AMapException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * 实时天气查询
+     */
+    private void searchliveweather() {
+        mquery = new WeatherSearchQuery(cityname, WeatherSearchQuery.WEATHER_TYPE_LIVE);//检索参数为城市和天气类型，实时天气为1、天气预报为2
+        try {
+            mweathersearch = new WeatherSearch(this);
+            mweathersearch.setOnWeatherSearchListener(this);
+            mweathersearch.setQuery(mquery);
+            mweathersearch.searchWeatherAsyn(); //异步搜索
+        } catch (AMapException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * 实时天气查询回调
+     */
+    @Override
+    public void onWeatherLiveSearched(LocalWeatherLiveResult weatherLiveResult, int rCode) {
+        if (rCode == AMapException.CODE_AMAP_SUCCESS) {
+            if (weatherLiveResult != null && weatherLiveResult.getLiveResult() != null) {
+                weatherlive = weatherLiveResult.getLiveResult();
+//                reporttime1.setText(weatherlive.getReportTime() + "发布");
+                weather.setText(weatherlive.getWeather());
+                Temperature.setText(weatherlive.getTemperature() + "°");
+                wind.setText(weatherlive.getWindDirection() + "风     " + weatherlive.getWindPower() + "级");
+                humidity.setText("湿度         " + weatherlive.getHumidity() + "%");
+            } else {
+                ToastUtil.show(this, R.string.no_result);
+            }
+        } else {
+            ToastUtil.showerror(this, rCode);
+        }
+    }
+
+    /**
+     * 天气预报查询结果回调
+     */
+    @Override
+    public void onWeatherForecastSearched(
+            LocalWeatherForecastResult weatherForecastResult, int rCode) {
+        if (rCode == AMapException.CODE_AMAP_SUCCESS) {
+            if (weatherForecastResult != null && weatherForecastResult.getForecastResult() != null
+                    && weatherForecastResult.getForecastResult().getWeatherForecast() != null
+                    && weatherForecastResult.getForecastResult().getWeatherForecast().size() > 0) {
+                weatherforecast = weatherForecastResult.getForecastResult();
+                forecastlist = weatherforecast.getWeatherForecast();
+
+            } else {
+                ToastUtil.show(this, R.string.no_result);
+            }
+        } else {
+            ToastUtil.showerror(this, rCode);
+        }
+    }
+
 }
+
+
 
 

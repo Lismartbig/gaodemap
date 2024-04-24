@@ -148,6 +148,7 @@ public class RouteActivity extends AppCompatActivity implements
         etEndAddress.addTextChangedListener(this);// 添加文本输入框监听事件
         btNavigation = findViewById(R.id.bt_navigation);
         btRouteSearch = findViewById(R.id.bt_routsearch);
+
         //初始化定位
         initLocation();
         //初始化地图
@@ -161,7 +162,7 @@ public class RouteActivity extends AppCompatActivity implements
         initTravelMode();
         NavigationClick();
 
-        btRouteSearch = findViewById(R.id.bt_routsearch); // 假设按钮的ID是bt
+
         btRouteSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

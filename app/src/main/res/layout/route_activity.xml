@@ -102,9 +102,9 @@
                 android:id="@+id/bt_routsearch"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:text="查看路线"
                 android:layout_below="@+id/et_end_address"
-                android:background="#000" />
+                android:background="#000"
+                android:text="查看路线" />
 
             <View
                 android:id="@+id/linev"

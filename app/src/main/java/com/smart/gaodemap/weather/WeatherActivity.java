@@ -102,7 +102,6 @@ public class WeatherActivity extends Activity implements OnWeatherSearchListener
     public void startLocaion() throws Exception {
         mLocationClient = new AMapLocationClient(getApplicationContext());
         mLocationClient.setLocationListener(mLocationListener);
-//        citytx = (TextView) findViewById(R.id.weather_city);
         mLocationOption = new AMapLocationClientOption();
         //设置定位模式为AMapLocationMode.Hight_Accuracy，高精度模式。
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
