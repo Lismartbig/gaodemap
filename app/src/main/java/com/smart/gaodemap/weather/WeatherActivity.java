@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -229,6 +230,15 @@ public class WeatherActivity extends Activity implements OnWeatherSearchListener
                 Temperature.setText(weatherlive.getTemperature() + "°");
                 wind.setText(weatherlive.getWindDirection() + "风     " + weatherlive.getWindPower() + "级");
                 humidity.setText("湿度         " + weatherlive.getHumidity() + "%");
+
+                // 根据天气动态更改背景
+                LinearLayout layout = (LinearLayout) findViewById(R.id.ly_weather_activity);
+                if (weatherlive.getWeather().contains("晴")) {
+                    layout.setBackgroundResource(R.drawable.weatherback);
+                } else {
+                    layout.setBackgroundResource(R.drawable.bg_not_sunny);
+                }
+
             } else {
                 ToastUtil.show(WeatherActivity.this, R.string.no_result);
             }
@@ -236,6 +246,23 @@ public class WeatherActivity extends Activity implements OnWeatherSearchListener
             ToastUtil.showerror(WeatherActivity.this, rCode);
         }
     }
+//    @Override
+//    public void onWeatherLiveSearched(LocalWeatherLiveResult weatherLiveResult, int rCode) {
+//        if (rCode == AMapException.CODE_AMAP_SUCCESS) {
+//            if (weatherLiveResult != null && weatherLiveResult.getLiveResult() != null) {
+//                weatherlive = weatherLiveResult.getLiveResult();
+//                reporttime1.setText(weatherlive.getReportTime() + "发布");
+//                weather.setText(weatherlive.getWeather());
+//                Temperature.setText(weatherlive.getTemperature() + "°");
+//                wind.setText(weatherlive.getWindDirection() + "风     " + weatherlive.getWindPower() + "级");
+//                humidity.setText("湿度         " + weatherlive.getHumidity() + "%");
+//            } else {
+//                ToastUtil.show(WeatherActivity.this, R.string.no_result);
+//            }
+//        } else {
+//            ToastUtil.showerror(WeatherActivity.this, rCode);
+//        }
+//    }
 
     /**
      * 天气预报查询结果回调

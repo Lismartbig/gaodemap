@@ -243,9 +243,13 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="30dp"
             android:layout_marginRight="10dp"
-            app:cardBackgroundColor="#75A9FA"
             app:cardCornerRadius="8dp">
-
+            <ImageView
+                android:id="@+id/background_card"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/day_card"
+            android:scaleType="centerCrop"/>
             <TextView
                 android:id="@+id/city_name_weather_card"
                 android:layout_width="match_parent"
@@ -271,6 +275,13 @@
                     android:textSize="35sp"
                     android:fontFamily="sans-serif-black"
                     android:textColor="#FFFFFF"/>
+
+                <ImageView
+                    android:id="@+id/card_img"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/weather3" />
                 <TextView
                     android:id="@+id/temp_card"
                     android:layout_width="fill_parent"
@@ -283,29 +294,91 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingTop="10dp"
-                android:paddingLeft="55dp"
-                android:layout_marginTop="115dp">
-                <TextView
-                    android:id="@+id/wind"
+                android:orientation="horizontal"
+                android:layout_marginTop="115dp"
+                android:padding="10dp">
+                <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="5dp"
-                    android:textSize="14sp"
-                    android:textColor="#FFFFFF"/>
-                <TextView
-                    android:id="@+id/humidity"
-                    android:layout_width="fill_parent"
+                    android:layout_weight="2"
+                    android:orientation="vertical"
+                    android:paddingTop="10dp"
+                    android:paddingLeft="45dp"
+                    android:layout_marginTop="0dp">
+                    <TextView
+                        android:id="@+id/wind"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="5dp"
+                        android:textSize="14sp"
+                        android:textColor="#FFFFFF"/>
+                    <TextView
+                        android:id="@+id/humidity"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="5dp"
+                        android:textSize="14sp"
+                        android:textColor="#FFFFFF"/>
+                </LinearLayout>
+                <ImageView
+                    android:id="@+id/wind_image"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_margin="5dp"
-                    android:textSize="14sp"
-                    android:textColor="#FFFFFF"/>
+                    android:src="@drawable/win1"
+                    android:layout_marginLeft="10dp"/> <!-- 根据需要调整间距 -->
             </LinearLayout>
+<!--            <LinearLayout-->
+<!--                android:layout_width="fill_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical"-->
+<!--                android:paddingTop="10dp"-->
+<!--                android:paddingLeft="55dp"-->
+<!--                android:layout_marginTop="115dp">-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal">-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/wind"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:layout_margin="5dp"-->
+<!--                        android:textSize="14sp"-->
+<!--                        android:textColor="#FFFFFF"/>-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/wind_image"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="30dp"-->
+<!--                        android:src="@drawable/win1"-->
+<!--                        android:layout_marginLeft="10dp"/> &lt;!&ndash; 根据需要调整间距 &ndash;&gt;-->
+
+<!--                </LinearLayout>-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal">-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/humidity"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:layout_margin="5dp"-->
+<!--                        android:textSize="14sp"-->
+<!--                        android:textColor="#FFFFFF"/>-->
+<!--                </LinearLayout>-->
+<!--            </LinearLayout>-->
+
 <!--            <LinearLayout-->
 <!--                android:layout_width="fill_parent"-->
 <!--                android:layout_height="wrap_content"-->

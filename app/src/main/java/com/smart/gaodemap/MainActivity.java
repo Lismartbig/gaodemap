@@ -54,7 +54,10 @@ import android.view.animation.Animation;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends Activity implements OnClickListener, OnWeatherSearchListener {
 
@@ -396,11 +399,38 @@ public class MainActivity extends Activity implements OnClickListener, OnWeather
         if (rCode == AMapException.CODE_AMAP_SUCCESS) {
             if (weatherLiveResult != null && weatherLiveResult.getLiveResult() != null) {
                 weatherlive = weatherLiveResult.getLiveResult();
-//                reporttime1.setText(weatherlive.getReportTime() + "发布");
                 weather.setText(weatherlive.getWeather());
                 Temperature.setText(weatherlive.getTemperature() + "°");
                 wind.setText(weatherlive.getWindDirection() + "风     " + weatherlive.getWindPower() + "级");
                 humidity.setText("湿度         " + weatherlive.getHumidity() + "%");
+
+                // 获取ImageView组件
+                ImageView cardImgView = (ImageView) findViewById(R.id.card_img);
+                ImageView windImageView = (ImageView) findViewById(R.id.wind_image);
+
+                // 根据天气信息更改图片
+                switch (weatherlive.getWeather()) {
+                    case "晴":
+                        cardImgView.setImageResource(R.drawable.weather3);
+                        break;
+                    case "雨":
+                        cardImgView.setImageResource(R.drawable.weather1);
+                        break;
+                    default:
+                        cardImgView.setImageResource(R.drawable.weather2);
+                        break;
+                }
+
+                // 根据风力信息更改图片，风力信息可能需要转换类型
+                int windPower = Integer.parseInt(weatherlive.getWindPower().replaceAll("[^0-9]", ""));
+                if (windPower <= 3) {
+                    windImageView.setImageResource(R.drawable.win1);
+                } else if (windPower <= 8) {
+                    windImageView.setImageResource(R.drawable.win2);
+                } else {
+                    windImageView.setImageResource(R.drawable.win3);
+                }
+
             } else {
                 ToastUtil.show(this, R.string.no_result);
             }
@@ -408,6 +438,23 @@ public class MainActivity extends Activity implements OnClickListener, OnWeather
             ToastUtil.showerror(this, rCode);
         }
     }
+//    @Override
+//    public void onWeatherLiveSearched(LocalWeatherLiveResult weatherLiveResult, int rCode) {
+//        if (rCode == AMapException.CODE_AMAP_SUCCESS) {
+//            if (weatherLiveResult != null && weatherLiveResult.getLiveResult() != null) {
+//                weatherlive = weatherLiveResult.getLiveResult();
+////                reporttime1.setText(weatherlive.getReportTime() + "发布");
+//                weather.setText(weatherlive.getWeather());
+//                Temperature.setText(weatherlive.getTemperature() + "°");
+//                wind.setText(weatherlive.getWindDirection() + "风     " + weatherlive.getWindPower() + "级");
+//                humidity.setText("湿度         " + weatherlive.getHumidity() + "%");
+//            } else {
+//                ToastUtil.show(this, R.string.no_result);
+//            }
+//        } else {
+//            ToastUtil.showerror(this, rCode);
+//        }
+//    }
 
     /**
      * 天气预报查询结果回调
@@ -430,6 +477,25 @@ public class MainActivity extends Activity implements OnClickListener, OnWeather
         }
     }
 
+    //判断白天黑夜
+    public void changeBackgroundWithTime(){
+        //获取ImageView组件
+        final ImageView background = findViewById(R.id.background_card);
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Calendar cal = Calendar.getInstance(); //获取当前时间
+                int hour = cal.get(Calendar.HOUR_OF_DAY); //获取当前小时
+                if (hour >= 6 && hour < 18) { //早上六点到晚上六点，设置为白天背景
+                    background.setImageResource(R.drawable.day2_card);
+                } else { //其他时间，设置为晚上背景
+                    background.setImageResource(R.drawable.day2_card);
+                }
+            }
+        }, 0, 1000 * 60); //每分钟检查一次
+    }
 }
 
 
