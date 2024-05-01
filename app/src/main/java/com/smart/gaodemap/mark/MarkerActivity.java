@@ -56,6 +56,7 @@ import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.smart.gaodemap.R;
+import com.smart.gaodemap.util.AMapUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,9 +118,6 @@ public class MarkerActivity extends AppCompatActivity implements
     //城市
     private String city;
 
-    private Button bt_search;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,13 +131,6 @@ public class MarkerActivity extends AppCompatActivity implements
         //键盘按键监听
         etAddress.setOnKeyListener(this);
 
-        bt_search = findViewById(R.id.bt_search);
-        bt_search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                performSearch();
-            }
-        });
 
         //初始化定位
         initLocation();
@@ -585,7 +576,10 @@ public class MarkerActivity extends AppCompatActivity implements
             if (geocodeAddressList != null && geocodeAddressList.size() > 0) {
                 LatLonPoint latLonPoint = geocodeAddressList.get(0).getLatLonPoint();
                 //显示解析后的坐标
-                //showMsg("坐标：" + latLonPoint.getLongitude() + "，" + latLonPoint.getLatitude());
+//                showMsg("坐标：" + latLonPoint.getLongitude() + "，" + latLonPoint.getLatitude());
+                LatLng latLng= AMapUtil.convertToLatLng(latLonPoint);
+                addMarker(latLng);
+                updateMapCenter(latLng);
             }
 
         } else {
@@ -707,8 +701,7 @@ public class MarkerActivity extends AppCompatActivity implements
      */
     @Override
     public View getInfoWindow(Marker marker) {
-        View infoWindow = getLayoutInflater().inflate(
-                R.layout.custom_info_window, null);
+        View infoWindow = getLayoutInflater().inflate(R.layout.custom_info_window, null);
 
         render(marker, infoWindow);
         return infoWindow;
@@ -721,30 +714,25 @@ public class MarkerActivity extends AppCompatActivity implements
      * @param view
      */
     private void render(Marker marker, View view) {
-        ((ImageView) view.findViewById(R.id.badge))
-                .setImageResource(R.drawable.heart);
 
         //修改InfoWindow标题内容样式
         String title = marker.getTitle();
         TextView titleUi = ((TextView) view.findViewById(R.id.title));
         if (title != null) {
             SpannableString titleText = new SpannableString(title);
-            titleText.setSpan(new ForegroundColorSpan(Color.RED), 0,
-                    titleText.length(), 0);
-            titleUi.setTextSize(15);
+            titleText.setSpan(new ForegroundColorSpan(Color.BLACK), 0, titleText.length(), 0);
+            titleUi.setTextSize(60);
             titleUi.setText(titleText);
-
         } else {
-            titleUi.setText("");
+            titleUi.setText("空");
         }
         //修改InfoWindow片段内容样式
         String snippet = marker.getSnippet();
         TextView snippetUi = ((TextView) view.findViewById(R.id.snippet));
         if (snippet != null) {
             SpannableString snippetText = new SpannableString(snippet);
-            snippetText.setSpan(new ForegroundColorSpan(Color.GREEN), 0,
-                    snippetText.length(), 0);
-            snippetUi.setTextSize(20);
+            snippetText.setSpan(new ForegroundColorSpan(Color.BLACK), 0, snippetText.length(), 0);
+            snippetUi.setTextSize(40);
             snippetUi.setText(snippetText);
         } else {
             snippetUi.setText("");
@@ -774,6 +762,7 @@ public class MarkerActivity extends AppCompatActivity implements
         //转换用户输入的终点地址
         GeocodeQuery endQuery = new GeocodeQuery(address, city);
         geocodeSearch.getFromLocationNameAsyn(endQuery);
+
     }
 
 }

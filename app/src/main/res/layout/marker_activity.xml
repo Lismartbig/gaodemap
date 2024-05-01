@@ -29,13 +29,13 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <Button
-        android:id="@+id/bt_search"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_below="@+id/toolbar"
-        android:background="#000"
-        android:text="查找定位" />
+<!--    <Button-->
+<!--        android:id="@+id/bt_search"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="45dp"-->
+<!--        android:layout_below="@+id/toolbar"-->
+<!--        android:background="#000"-->
+<!--        android:text="查找定位" />-->
     <!--地图-->
     <com.amap.api.maps.MapView
         android:id="@+id/map_view"
