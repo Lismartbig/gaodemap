@@ -118,6 +118,9 @@ public class MarkerActivity extends AppCompatActivity implements
     //城市
     private String city;
 
+    private String address = "地址：";
+    private String details = "详细信息：";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -458,9 +461,9 @@ public class MarkerActivity extends AppCompatActivity implements
     @Override
     public void onMapClick(LatLng latLng) {
         //通过经纬度获取地址
-        //latlonToAddress(latLng);
+        latlonToAddress(latLng);
         //添加标点
-        addMarker(latLng);
+        //addMarker(latLng);
         //改变地图中心点
         updateMapCenter(latLng);
     }
@@ -507,8 +510,8 @@ public class MarkerActivity extends AppCompatActivity implements
         Marker marker = aMap.addMarker(new MarkerOptions()
                 .draggable(true)//可拖动
                 .position(latLng)
-                .title("标题")
-                .snippet("详细信息"));
+                .title(address)
+                .snippet(details));
 
         //绘制Marker时显示InfoWindow
         //marker.showInfoWindow();
@@ -553,6 +556,9 @@ public class MarkerActivity extends AppCompatActivity implements
             //显示解析后的地址
             Log.d("MarkerActivity", regeocodeAddress.getFormatAddress());
             showMsg("地址：" + regeocodeAddress.getFormatAddress());
+
+            address = regeocodeAddress.getFormatAddress();
+            details = regeocodeAddress.getAdCode();
 
             LatLonPoint latLonPoint = regeocodeResult.getRegeocodeQuery().getPoint();
             LatLng latLng = new LatLng(latLonPoint.getLatitude(), latLonPoint.getLongitude());
@@ -721,7 +727,7 @@ public class MarkerActivity extends AppCompatActivity implements
         if (title != null) {
             SpannableString titleText = new SpannableString(title);
             titleText.setSpan(new ForegroundColorSpan(Color.BLACK), 0, titleText.length(), 0);
-            titleUi.setTextSize(60);
+            titleUi.setTextSize(20);
             titleUi.setText(titleText);
         } else {
             titleUi.setText("空");
@@ -732,7 +738,7 @@ public class MarkerActivity extends AppCompatActivity implements
         if (snippet != null) {
             SpannableString snippetText = new SpannableString(snippet);
             snippetText.setSpan(new ForegroundColorSpan(Color.BLACK), 0, snippetText.length(), 0);
-            snippetUi.setTextSize(40);
+            snippetUi.setTextSize(18);
             snippetUi.setText(snippetText);
         } else {
             snippetUi.setText("");
@@ -746,23 +752,8 @@ public class MarkerActivity extends AppCompatActivity implements
      */
     @Override
     public void onInfoWindowClick(Marker marker) {
-        showMsg("弹窗内容：标题：" + marker.getTitle() + "\n片段：" + marker.getSnippet());
+        showMsg("地址：" + marker.getTitle() + "\n片段：" + marker.getSnippet());
     }
 
-    private void performSearch() {
-        //获取输入框的值 目的地（终点）
-        String address = etAddress.getText().toString().trim();
-        showMsg(address);
-        //判断目的地是否有值
-        if (address.isEmpty()) {
-            showMsg("请输入要前往的目的地");
-            return;
-        }
-
-        //转换用户输入的终点地址
-        GeocodeQuery endQuery = new GeocodeQuery(address, city);
-        geocodeSearch.getFromLocationNameAsyn(endQuery);
-
-    }
 
 }
